@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{%block content  %}
+    <div class="container">
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Title</th>
+      <th scope="col">Authors</th>
+      <th scope="col">Publication Date</th>
+      <th scope="col">ISBN</th>
+      <th scope="col">Pages</th>
+      <th scope="col">Language</th>
+      <th scope="col">Url to front cover</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for book in books %}
+    <tr>
+      <th scope="row">{{ book.id }}</th>
+      <td>{{ book.title }}</td>
+      <td>{{book.authors}}</td>
+      <td>{{ book.publication_date }}</td>
+      <td>{{ book.ISBN_number }}</td>
+      <td>{{ book.pages }}</td>
+      <td>{{ book.pub_language }}</td>
+      <td>{{ book.front_cover }}</td>
+    </tr>
+  {% endfor %}
+   </tbody>
+    </table>
+    </div>
+{% endblock %}
