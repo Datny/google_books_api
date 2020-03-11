@@ -20,7 +20,9 @@ from books import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.show_all, name="show_all"),
-    path('crud', views.add_edit, name="add_edit"),
-    path('add_from_api', views.add_api, name="add_api")
+    path('', views.show_all_books, name="show_all"),
+    path('book/add', views.add_book, name="add"),
+    path('book/<int:pk>/update', views.BookUpdate.as_view(), name='edit'),
+    path('book/<int:pk>/delete', views.BookDelete.as_view(), name='delete'),
+    path('book/add_from_api', views.add_book_from_google_api, name="add_api")
 ]

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'books/base.html' %}
 {%block content  %}
     <div class="container">
     <table class="table">
@@ -12,6 +12,8 @@
       <th scope="col">Pages</th>
       <th scope="col">Language</th>
       <th scope="col">Url to front cover</th>
+      <th scope="col"></th>
+      <th scope="col"></th>  
     </tr>
   </thead>
   <tbody>
@@ -25,6 +27,8 @@
       <td>{{ book.pages }}</td>
       <td>{{ book.pub_language }}</td>
       <td>{{ book.front_cover }}</td>
+      <td><a href="{% url 'edit' book.pk %}">Edit</a></td>
+      <td><a href="{% url 'delete' book.pk %}">Delete</a></td>
     </tr>
   {% endfor %}
    </tbody>

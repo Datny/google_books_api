@@ -1,11 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'books/base.html' %}
 {% load crispy_forms_tags  %}
 {%block content  %}
     <div class="container">
     <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
-    <input type="submit" value="Submit">
+    <input type="submit" value="Save">
 </form>
     </div>
 {% endblock %}
+
