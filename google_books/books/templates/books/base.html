@@ -58,19 +58,6 @@
     </header>
 
     <main role="main" class="inner cover">
-        <div class="jumbotron">
-            <div class="container justify-content-center col-4">
-                <form method="POST">
-                    {% csrf_token %}
-                    {{ search_form|crispy }}
-                    <button type="submit"> Search </button>
-                </form>
-
-
-            </div>
-        </div>
-        You were looking for:
-        {{form_text}}
 
 
         {% block content %}

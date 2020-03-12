@@ -1,5 +1,20 @@
 {% extends 'books/base.html' %}
+{% load crispy_forms_tags  %}
 {%block content  %}
+     <div class="jumbotron">
+            <div class="container justify-content-center col-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ search_form|crispy }}
+                    <button type="submit"> Search </button>
+                </form>
+
+
+            </div>
+        </div>
+        You were looking for:
+        {{form_text}}
+
     <div class="container">
     <table class="table">
   <thead>

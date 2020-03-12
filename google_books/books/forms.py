@@ -23,6 +23,9 @@ class SearchForm(forms.Form):
     from_date = forms.DateField(required=False, label="start date:")
     to_date = forms.DateField(required=False, label="end date")
 
+    def clean_data(self):
+        return self.cleaned_data['data'].strip()
+
 
     def clean_to_date(self):
         to_date = self.cleaned_data['to_date']
