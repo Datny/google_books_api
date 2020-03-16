@@ -10,9 +10,9 @@ import requests as pyt_requests
 from django.http import Http404, JsonResponse
 from .local_settings import google_api_key
 import json
+from .serializers import change_api_response_to_list_of_book_objects
 
 
-#response = pyt_request.get(f"https://www.googleapis.com/books/v1/volumes?q={encoded_search_term}&maxResults=4&orderBy=relevance&key={google_api_key}")
 
 def add_book_from_google_api(request):
     search_form = SearchForm(request.GET)
@@ -24,21 +24,10 @@ def add_book_from_google_api(request):
             encoded_search_term = parse.quote(data)
             response = pyt_requests.get(f"https://www.googleapis.com/books/v1/volumes?q={encoded_search_term}&maxResults=4&orderBy=relevance&key={google_api_key}")
             json_response = response.json()
-            books = []
-            for el in json_response['items']:
-                book = Book()
-                book.title = el.get('volumeInfo').get('title')
-                book.authors = ', '.join(map(str, (el['volumeInfo']['authors'])))
-                book.pages = el.get('volumeInfo').get('pageCount', 0)
-                book.isbn_number = el['volumeInfo']['industryIdentifiers']
-                str_isbn = ""
-                for isdn in book.isbn_number:
-                    str_isbn += isdn['type'] + " : " + isdn['identifier']+" "
-                book.isbn_number = str_isbn
-                book.pub_language = el['volumeInfo']['language']
-                book.front_cover = el['volumeInfo']['imageLinks']['smallThumbnail']
-                book.publication_date = el.get('volumeInfo').get('publishedDate')
-                books.append(book)
+            books = change_api_response_to_list_of_book_objects(json_response)
+            for book in books:
+                if book.publication_date > to_date or book.publication_date < from_date:
+                    books.remove(book)
             return render(request, 'books/book_add_from_gapi.html', {'form': search_form, 'books': books})
 
 

@@ -11,7 +11,6 @@
     <table class="table">
   <thead>
     <tr>
-      <th scope="col">ID</th>
       <th scope="col">Title</th>
       <th scope="col">Authors</th>
       <th scope="col">Publication Date</th>
@@ -26,7 +25,6 @@
   <tbody>
   {% for book in books %}
     <tr>
-      <th scope="row">{{ book.id }}</th>
       <td>{{ book.title }}</td>
       <td>{{book.authors}}</td>
       <td>{{ book.publication_date }}</td>
