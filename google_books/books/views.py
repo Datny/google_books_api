@@ -24,7 +24,23 @@ def add_book_from_google_api(request):
             encoded_search_term = parse.quote(data)
             response = pyt_requests.get(f"https://www.googleapis.com/books/v1/volumes?q={encoded_search_term}&maxResults=4&orderBy=relevance&key={google_api_key}")
             json_response = response.json()
-            return HttpResponse("Do your job with jsons 1st")
+            books = []
+            for el in json_response['items']:
+                book = Book()
+                book.title = el.get('volumeInfo').get('title')
+                book.authors = ', '.join(map(str, (el['volumeInfo']['authors'])))
+                book.pages = el.get('volumeInfo').get('pageCount', 0)
+                book.isbn_number = el['volumeInfo']['industryIdentifiers']
+                str_isbn = ""
+                for isdn in book.isbn_number:
+                    str_isbn += isdn['type'] + " : " + isdn['identifier']+" "
+                book.isbn_number = str_isbn
+                book.pub_language = el['volumeInfo']['language']
+                book.front_cover = el['volumeInfo']['imageLinks']['smallThumbnail']
+                book.publication_date = el.get('volumeInfo').get('publishedDate')
+                books.append(book)
+            return render(request, 'books/book_add_from_gapi.html', {'form': search_form, 'books': books})
+
 
     return render(request, 'books/book_add_from_gapi.html', {'form': search_form})
 
