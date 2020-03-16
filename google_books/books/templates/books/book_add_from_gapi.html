@@ -7,6 +7,10 @@
     <input type="submit" value="Search">
 </form>
     </div>
+    {% if msg %}
+     <h1>Sorry, we didnt find any books</h1>
+    {% endif %}
+
     <div class="container">
     <table class="table">
   <thead>
@@ -32,7 +36,7 @@
       <td>{{ book.pages }}</td>
       <td>{{ book.pub_language }}</td>
       <td><img src="{{book.front_cover}}" alt="Incorrect url" class="img-thumbnail"></td>
-      <td><a href="#">Add</a></td>
+      <td><a href="#">Add to db</a></td>
     </tr>
   {% endfor %}
    </tbody>

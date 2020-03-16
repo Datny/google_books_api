@@ -14,7 +14,7 @@ from .serializers import change_api_response_to_list_of_book_objects
 
 
 
-def add_book_from_google_api(request):
+def find_books_using_google_api(request):
     search_form = SearchForm(request.GET)
     if search_form.is_valid():
         data = search_form.cleaned_data['data']
@@ -24,10 +24,13 @@ def add_book_from_google_api(request):
             encoded_search_term = parse.quote(data)
             response = pyt_requests.get(f"https://www.googleapis.com/books/v1/volumes?q={encoded_search_term}&maxResults=4&orderBy=relevance&key={google_api_key}")
             json_response = response.json()
-            books = change_api_response_to_list_of_book_objects(json_response)
-            for book in books:
-                if book.publication_date > to_date or book.publication_date < from_date:
-                    books.remove(book)
+            try:
+                books = change_api_response_to_list_of_book_objects(json_response)
+                for book in books:
+                    if book.publication_date > to_date or book.publication_date < from_date:
+                        books.remove(book)
+            except:
+                return render(request, 'books/book_add_from_gapi.html', {'form': search_form, 'msg':'Nothing found'})
             return render(request, 'books/book_add_from_gapi.html', {'form': search_form, 'books': books})
 
 
@@ -56,6 +59,7 @@ def show_all_books(request):
 
 
 def add_book(request):
+
     if request.method == "POST":
         form = BookForm(request.POST)
         if form.is_valid():

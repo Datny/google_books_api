@@ -6,10 +6,11 @@ def change_api_response_to_list_of_book_objects(json_response):
     books = []
     for el in json_response['items']:
         book = models.Book()
+
         book.title = el.get('volumeInfo').get('title')
-        book.authors = ', '.join(map(str, (el['volumeInfo']['authors'])))
+        book.authors = ', '.join(map(str, (el.get('volumeInfo').get('authors'))))
         book.pages = el.get('volumeInfo').get('pageCount', 0)
-        book.isbn_number = el['volumeInfo']['industryIdentifiers']
+        book.isbn_number = el.get('volumeInfo').get('industryIdentifiers')
         str_isbn = ""
         for isdn in book.isbn_number:
             str_isbn += isdn['type'] + " : " + isdn['identifier'] + " "
@@ -28,3 +29,5 @@ def try_parsing_date(text):
         except ValueError:
             pass
     raise ValueError('no valid date format found')
+
+
