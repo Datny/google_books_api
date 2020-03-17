@@ -5,7 +5,7 @@
     <form method="get">
     {{ form|crispy }}
 
-    <input type="submit" value="Search">
+    <input type="submit" value="Search and add to database">
 </form>
     </div>
     {% if msg %}
@@ -37,7 +37,6 @@
       <td>{{ book.pages }}</td>
       <td>{{ book.pub_language }}</td>
       <td><img src="{{book.front_cover}}" alt="Incorrect url" class="img-thumbnail"></td>
-      <td><a href="#">Add to db</a></td>
     </tr>
   {% endfor %}
    </tbody>

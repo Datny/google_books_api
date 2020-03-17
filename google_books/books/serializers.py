@@ -24,6 +24,7 @@ def change_api_response_to_list_of_book_objects(json_response):
         books.append(book)
     return books
 
+
 def try_parsing_date(text):
     if not text:
         return "unknown"

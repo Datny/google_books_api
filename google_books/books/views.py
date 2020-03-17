@@ -22,13 +22,14 @@ def find_books_using_google_api(request):
         to_date = search_form.cleaned_data['to_date']
         if data:
             encoded_search_term = parse.quote(data)
-            response = pyt_requests.get(f"https://www.googleapis.com/books/v1/volumes?q={encoded_search_term}&maxResults=4&orderBy=relevance&key={google_api_key}")
+            response = pyt_requests.get(f"https://www.googleapis.com/books/v1/volumes?q={encoded_search_term}&maxResults=1&orderBy=relevance&key={google_api_key}")
             json_response = response.json()
             books = change_api_response_to_list_of_book_objects(json_response)
             for book in books:
                 if book.publication_date != "unknown":
                     if book.publication_date > to_date or book.publication_date < from_date:
                         books.remove(book)
+                    book.save()
             return render(request, 'books/book_add_from_gapi.html', {'form': search_form, 'books': books})
 
 

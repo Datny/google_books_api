@@ -10,8 +10,6 @@
                 </form>
             </div>
         </div>
-        You were looking for:
-        {{form_text}}
     <div class="container">
     <table class="table">
   <thead>
@@ -35,7 +33,7 @@
       <td>{{ book.title }}</td>
       <td>{{book.authors}}</td>
       <td>{{ book.publication_date }}</td>
-      <td>{{ book.ISBN_number }}</td>
+      <td>{{ book.isbn_number }}</td>
       <td>{{ book.pages }}</td>
       <td>{{ book.pub_language }}</td>
       <td><img src="{{book.front_cover}}" alt="Incorrect url" class="img-thumbnail"></td>
