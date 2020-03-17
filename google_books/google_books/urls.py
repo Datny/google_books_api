@@ -24,6 +24,6 @@ urlpatterns = [
     path('book/add', views.add_book, name="add"),
     path('book/<int:pk>/update', views.BookUpdate.as_view(), name='edit'),
     path('book/<int:pk>/delete', views.BookDelete.as_view(), name='delete'),
-    path('book/add_from_api', views.find_books_using_google_api, name="add_api"),
+    path('book/add_from_api', views.find_books_using_google_api, name="add_api")
 
 ]

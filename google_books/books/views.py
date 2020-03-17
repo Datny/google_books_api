@@ -24,13 +24,11 @@ def find_books_using_google_api(request):
             encoded_search_term = parse.quote(data)
             response = pyt_requests.get(f"https://www.googleapis.com/books/v1/volumes?q={encoded_search_term}&maxResults=4&orderBy=relevance&key={google_api_key}")
             json_response = response.json()
-            try:
-                books = change_api_response_to_list_of_book_objects(json_response)
-                for book in books:
+            books = change_api_response_to_list_of_book_objects(json_response)
+            for book in books:
+                if book.publication_date != "unknown":
                     if book.publication_date > to_date or book.publication_date < from_date:
                         books.remove(book)
-            except:
-                return render(request, 'books/book_add_from_gapi.html', {'form': search_form, 'msg':'Nothing found'})
             return render(request, 'books/book_add_from_gapi.html', {'form': search_form, 'books': books})
 
 
@@ -40,6 +38,7 @@ def find_books_using_google_api(request):
 def show_all_books(request):
     books = Book.objects.all()
     form = SearchForm
+    add_book_form = BookForm()
     if request.method == "POST":
         form = SearchForm(request.POST)
         if form.is_valid():
@@ -49,9 +48,9 @@ def show_all_books(request):
            books = Book.objects.filter(Q(title__icontains=query) | Q(authors__icontains=query) | Q(
                pub_language__icontains=query))
            books = books.filter(publication_date__lte=to_date).filter(publication_date__gte=from_date)
-
            return render(request, 'books/book_show_all.html', {'books': books,
                                                                'search_form': form,
+                                                               'add_book_form': add_book_form,
                                                                'form_text': query})
 
 
@@ -81,4 +80,7 @@ class BookUpdate(UpdateView):
 class BookDelete(DeleteView):
     model = Book
     success_url = reverse_lazy("show_all")
+
+
+
 
