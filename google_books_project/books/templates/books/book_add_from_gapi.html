@@ -1,0 +1,46 @@
+{% extends 'books/base.html' %}
+{% load crispy_forms_tags  %}
+{%block content  %}
+    <div class="container">
+    <form method="get">
+    {{ form|crispy }}
+
+    <input type="submit" value="Search and add to database">
+</form>
+    </div>
+    {% if msg %}
+     <h1>Sorry, we didnt find any books</h1>
+    {% endif %}
+
+    <div class="container">
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Authors</th>
+      <th scope="col">Publication Date</th>
+      <th scope="col">ISBN</th>
+      <th scope="col">Pages</th>
+      <th scope="col">Language</th>
+      <th scope="col">Url to front cover</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for book in books %}
+    <tr>
+      <td>{{ book.title }}</td>
+      <td>{{book.authors}}</td>
+      <td>{{ book.publication_date }}</td>
+      <td>{{ book.isbn_number }}</td>
+      <td>{{ book.pages }}</td>
+      <td>{{ book.pub_language }}</td>
+      <td><img src="{{book.front_cover}}" alt="Incorrect url" class="img-thumbnail"></td>
+    </tr>
+  {% endfor %}
+   </tbody>
+    </table>
+    </div>
+{% endblock %}
+

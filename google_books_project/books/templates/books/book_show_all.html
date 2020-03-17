@@ -1,0 +1,47 @@
+{% extends 'books/base.html' %}
+{% load crispy_forms_tags  %}
+{%block content  %}
+     <div class="jumbotron">
+            <div class="container justify-content-center col-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ search_form|crispy }}
+                    <button type="submit"> Search </button>
+                </form>
+            </div>
+        </div>
+    <div class="container">
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Title</th>
+      <th scope="col">Authors</th>
+      <th scope="col">Publication Date</th>
+      <th scope="col">ISBN</th>
+      <th scope="col">Pages</th>
+      <th scope="col">Language</th>
+      <th scope="col">Url to front cover</th>
+      <th scope="col"></th>
+      <th scope="col"></th>  
+    </tr>
+  </thead>
+  <tbody>
+  {% for book in books %}
+    <tr>
+      <th scope="row">{{ book.id }}</th>
+      <td>{{ book.title }}</td>
+      <td>{{book.authors}}</td>
+      <td>{{ book.publication_date }}</td>
+      <td>{{ book.isbn_number }}</td>
+      <td>{{ book.pages }}</td>
+      <td>{{ book.pub_language }}</td>
+      <td><img src="{{book.front_cover}}" alt="Incorrect url" class="img-thumbnail"></td>
+      <td><a href="{% url 'edit' book.pk %}">Edit</a></td>
+      <td><a href="{% url 'delete' book.pk %}">Delete</a></td>
+    </tr>
+  {% endfor %}
+   </tbody>
+    </table>
+    </div>
+{% endblock %}
