@@ -7,6 +7,13 @@ verify_ssl = true
 
 [packages]
 django = "*"
+django-crispy-forms = "*"
+request = "*"
+requests = "*"
+python-dateutil = "*"
+djangorestframework = "*"
+django-filter = "*"
+black = "*"
 
 [requires]
 python_version = "3.8"

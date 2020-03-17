@@ -20,15 +20,12 @@ from books import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.show_all_books, name="show_all"),
-    path('book/add', views.add_book, name="add"),
-    path('book/<int:pk>/update', views.BookUpdate.as_view(), name='edit'),
-    path('book/<int:pk>/delete', views.BookDelete.as_view(), name='delete'),
-    path('book/add_from_api', views.find_books_using_google_api, name="add_api"),
+    path("admin/", admin.site.urls),
+    path("", views.show_all_books, name="show_all"),
+    path("book/add", views.add_book, name="add"),
+    path("book/<int:pk>/update", views.BookUpdate.as_view(), name="edit"),
+    path("book/<int:pk>/delete", views.BookDelete.as_view(), name="delete"),
+    path("book/add_from_api", views.find_books_using_google_api, name="add_api"),
     ### Django_rest view
-    path('rest/', views.BooksApiView.as_view(), name='rest')
-
-
-
+    path("rest/", views.BooksApiView.as_view(), name="rest"),
 ]

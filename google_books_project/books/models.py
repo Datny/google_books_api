@@ -13,7 +13,6 @@ class Book(models.Model):
     front_cover = models.URLField()
 
     def __str__(self):
-        return f"Title: {self.title} Authors: {self.authors} ISBN_Number{self.isbn_number}"
-
-
-
+        return (
+            f"Title: {self.title} Authors: {self.authors} ISBN_Number{self.isbn_number}"
+        )
