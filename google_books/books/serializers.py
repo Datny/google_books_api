@@ -1,5 +1,13 @@
 from . import models
 from datetime import datetime
+from rest_framework import serializers
+
+
+class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Book
+        fields = '__all__'
+
 
 
 def change_api_response_to_list_of_book_objects(json_response):

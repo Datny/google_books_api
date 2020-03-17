@@ -10,9 +10,31 @@ import requests as pyt_requests
 from django.http import Http404, JsonResponse
 from .local_settings import google_api_key
 import json
-from .serializers import change_api_response_to_list_of_book_objects
+from .serializers import change_api_response_to_list_of_book_objects, BookSerializer
+
+from rest_framework import generics
+from rest_framework import filters
 
 
+
+class BooksApiView(generics.ListAPIView):
+    serializer_class = BookSerializer
+
+
+#http://127.0.0.1:8000/rest/?data=en&start=2007-02-02&end=2010-01-01
+    def get_queryset(self):
+        queryset = Book.objects.all()
+        data = self.request.query_params.get('data', None)
+        start_date = self.request.query_params.get('start', "1000-01-01")
+        end_date = self.request.query_params.get('end', "2099-12-12")
+        if data is not None:
+            queryset = queryset.filter(
+                Q(title__icontains=data) |
+                Q(authors__icontains=data) |
+                Q(pub_language__icontains=data)).filter\
+                (publication_date__lte=end_date).filter\
+                (publication_date__gte=start_date)
+        return queryset
 
 def find_books_using_google_api(request):
     search_form = SearchForm(request.GET)
